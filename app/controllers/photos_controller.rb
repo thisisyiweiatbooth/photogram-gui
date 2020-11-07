@@ -77,4 +77,30 @@ class PhotosController < ApplicationController
   redirect_to(next_url)
   end
 
+  def new_comment
+
+    #Parameters: {"query_photo_id"=>"777", "query_author_id"=>"117", "query_body"=>"hi", "modify_id"=>"777"}
+  
+    the_id = params.fetch("query_photo_id")
+    matching_photos = Photo.where({ :id => the_id})
+    the_photo = matching_photos.at(0)
+
+    input_author_id = params.fetch("query_author_id")
+    input_comment = params.fetch("query_body")
+
+    a_new_comment = Comment.new
+    a_new_comment.author_id = input_author_id
+    a_new_comment.body = input_comment
+    a_new_comment.photo_id = the_id
+
+    a_new_comment.save
+
+
+    # render({ :template => "photo_templates/new_comment.html.erb"})
+
+    next_url = "/photos/" + the_photo.id.to_s
+    redirect_to(next_url)
+
+  end
+
 end
