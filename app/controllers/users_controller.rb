@@ -39,4 +39,25 @@ def create
   redirect_to(next_url)
 end
 
+def update
+
+  # Parameters: {"query_username"=>"thisisyiwei4", "modify_username"=>"122"}
+
+  the_user_id = params.fetch("modify_username")
+  matching_users = User.where({ :id => the_user_id})
+  the_user = matching_users.at(0)
+
+  input_user = params.fetch("query_username")
+  
+  the_user.username = input_user
+  the_user.save
+
+
+  # render({ :template => "user_templates/update.html.erb"})
+
+  next_url = "/users/" + the_user.username
+  redirect_to(next_url)
+
+end
+
 end
